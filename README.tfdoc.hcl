@@ -79,31 +79,6 @@ section {
       title = "Top-level Arguments"
 
       section {
-        title = "Module Configuration"
-
-        variable "module_enabled" {
-          type        = bool
-          default     = true
-          description = <<-END
-            Specifies whether resources in the module will be created.
-          END
-        }
-
-        variable "module_depends_on" {
-          type           = any
-          readme_type    = "list(dependencies)"
-          description    = <<-END
-            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
-          END
-          readme_example = <<-END
-            module_depends_on = [
-              google_network.network
-            ]
-          END
-        }
-      }
-
-      section {
         title = "Main Resource Configuration"
 
         variable "name" {
@@ -427,23 +402,9 @@ section {
 
           variable "module_enabled" {
             type        = bool
+            default     = true
             description = <<-END
               Specifies whether resources in the module will be created.
-            END
-            default     = true
-          }
-
-          variable "module_tags" {
-            type           = map(string)
-            description    = <<-END
-              A map of tags that will be applied to all created resources that accept tags. Tags defined with 'module_tags' can be overwritten by resource-specific tags.
-            END
-            default        = {}
-            readme_example = <<-END
-              module_tags = {
-                environment = "staging"
-                team        = "platform"
-              }
             END
           }
 
@@ -453,10 +414,9 @@ section {
             description    = <<-END
               A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
             END
-            default        = []
             readme_example = <<-END
               module_depends_on = [
-                aws_vpc.vpc
+                google_network.network
               ]
             END
           }

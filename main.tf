@@ -1,6 +1,8 @@
 resource "google_composer_environment" "composer_environment" {
   count = var.module_enabled ? 1 : 0
 
+  depends_on = [var.module_depends_on]
+
   provider = google-beta
 
   project = var.project

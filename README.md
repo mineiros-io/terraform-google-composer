@@ -23,7 +23,7 @@ secure, and production-grade cloud infrastructure.
 - [Module Argument Reference](#module-argument-reference)
   - [Top-level Arguments](#top-level-arguments)
     - [Main Resource Configuration](#main-resource-configuration)
-      - [Module Configuration](#module-configuration)
+    - [Module Configuration](#module-configuration)
 - [Module Outputs](#module-outputs)
 - [External Documentation](#external-documentation)
   - [Google Documentation](#google-documentation)
@@ -256,7 +256,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
 
-##### Module Configuration
+#### Module Configuration
 
 - [**`module_enabled`**](#var-module_enabled): *(Optional `bool`)*<a name="var-module_enabled"></a>
 

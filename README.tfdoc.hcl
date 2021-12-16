@@ -396,30 +396,30 @@ section {
             Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
           END
         }
+      }
 
-        section {
-          title = "Module Configuration"
+      section {
+        title = "Module Configuration"
 
-          variable "module_enabled" {
-            type        = bool
-            default     = true
-            description = <<-END
-              Specifies whether resources in the module will be created.
-            END
-          }
+        variable "module_enabled" {
+          type        = bool
+          default     = true
+          description = <<-END
+            Specifies whether resources in the module will be created.
+          END
+        }
 
-          variable "module_depends_on" {
-            type           = any
-            readme_type    = "list(dependencies)"
-            description    = <<-END
-              A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
-            END
-            readme_example = <<-END
-              module_depends_on = [
-                google_network.network
-              ]
-            END
-          }
+        variable "module_depends_on" {
+          type           = any
+          readme_type    = "list(dependencies)"
+          description    = <<-END
+            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+          END
+          readme_example = <<-END
+            module_depends_on = [
+              google_network.network
+            ]
+          END
         }
       }
     }

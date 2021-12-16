@@ -47,7 +47,7 @@ Most common usage of the module just setting required arguments:
 module "terraform-google-composer" {
   source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.0.1"
 
-  name    = "example-name"
+  name   = "example-name"
 }
 ```
 

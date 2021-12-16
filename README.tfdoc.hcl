@@ -426,21 +426,6 @@ section {
   }
 
   section {
-    title   = "Module Outputs"
-    content = <<-END
-        The following attributes are exported in the outputs of the module:
-
-        - **`module_enabled`**
-
-          Whether this module is enabled.
-
-        - **`module_tags`**
-
-          The map of tags that are being applied to all created resources that accept tags.
-      END
-  }
-
-  section {
     title = "External Documentation"
 
     section {

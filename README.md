@@ -24,7 +24,6 @@ secure, and production-grade cloud infrastructure.
   - [Top-level Arguments](#top-level-arguments)
     - [Main Resource Configuration](#main-resource-configuration)
     - [Module Configuration](#module-configuration)
-- [Module Outputs](#module-outputs)
 - [External Documentation](#external-documentation)
   - [Google Documentation](#google-documentation)
   - [Terraform AWS Provider Documentation](#terraform-aws-provider-documentation)
@@ -275,18 +274,6 @@ See [variables.tf] and [examples/] for details and use-cases.
     google_network.network
   ]
   ```
-
-## Module Outputs
-
-The following attributes are exported in the outputs of the module:
-
-- **`module_enabled`**
-
-  Whether this module is enabled.
-
-- **`module_tags`**
-
-  The map of tags that are being applied to all created resources that accept tags.
 
 ## External Documentation
 

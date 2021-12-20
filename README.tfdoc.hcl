@@ -107,14 +107,14 @@ section {
         variable "labels" {
           type        = map(string)
           description = <<-END
-            User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?. Label values must be between 0 and 63 characters long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?. No more than 64 labels can be associated with a given environment. Both keys and values must be <= 128 bytes in size.
+            User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 64 labels can be associated with a given environment. Both keys and values must be <= 128 bytes in size.
           END
         }
 
         variable "node_count" {
           type        = number
           description = <<-END
-            The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+            The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
           END
         }
 
@@ -130,42 +130,44 @@ section {
             description = <<-END
               Apache Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example "core-dags_are_paused_at_creation".
 
-              Section names must not contain hyphens ("-"), opening square brackets ("["), or closing square brackets ("]"). The property name must not be empty and cannot contain "=" or ";". Section and property names cannot contain characters: "." Apache Airflow configuration property names must be written in snake_case. Property values can contain any character, and can be written in any lower/upper case format. Certain Apache Airflow configuration property values are blacklisted, and cannot be overridden.
+              Section names must not contain hyphens ("`-`"), opening square brackets ("`[`"), or closing square brackets ("`]`"). The property name must not be empty and cannot contain "`=`" or "`;`". Section and property names cannot contain characters: "`.`" Apache Airflow configuration property names must be written in snake_case. Property values can contain any character, and can be written in any lower/upper case format. Certain Apache Airflow configuration property values are blacklisted, and cannot be overridden.
             END
           }
 
           attribute "pypi_packages" {
             type        = map(string)
             description = <<-END
-              Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without pinning it to a version specifier, use the empty string as the value.
+              Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and version specifier (e.g. "`==1.12.0`", "`[devel,gcp_api]`", "`[devel]>=1.8.2, <1.9.2`"). To specify a package without pinning it to a version specifier, use the empty string as the value.
             END
           }
 
           attribute "env_variables" {
             type        = map(string)
             description = <<-END
-              Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes. Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*. They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
+              Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes. Environment variable names must match the regular expression `[a-zA-Z_][a-zA-Z0-9_]*`. They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression `AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+)`, and they cannot match any of the following reserved names:
 
-              AIRFLOW_HOME
-              C_FORCE_ROOT
-              CONTAINER_NAME
-              DAGS_FOLDER
-              GCP_PROJECT
-              GCS_BUCKET
-              GKE_CLUSTER_NAME
-              SQL_DATABASE
-              SQL_INSTANCE
-              SQL_PASSWORD
-              SQL_PROJECT
-              SQL_REGION
+              ```
+              AIRFLOW_HOME,
+              C_FORCE_ROOT,
+              CONTAINER_NAME,
+              DAGS_FOLDER,
+              GCP_PROJECT,
+              GCS_BUCKET,
+              GKE_CLUSTER_NAME,
+              SQL_DATABASE,
+              SQL_INSTANCE,
+              SQL_PASSWORD,
+              SQL_PROJECT,
+              SQL_REGION,
               SQL_USER
+              ```
             END
           }
 
           attribute "image_version" {
             type        = string
             description = <<-END
-              The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression composer-[0-9]+\.[0-9]+(\.[0-9]+)?-airflow-[0-9]+\.[0-9]+(\.[0-9]+.*)?. The Cloud Composer portion of the version is a semantic version. The portion of the image version following 'airflow-' is an official Apache Airflow repository release name.
+              The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-[0-9]+\.[0-9]+(\.[0-9]+)?-airflow-[0-9]+\.[0-9]+(\.[0-9]+.*)?`. The Cloud Composer portion of the version is a semantic version. The portion of the image version following '`airflow-`' is an official Apache Airflow repository release name.
             END
           }
 
@@ -179,7 +181,7 @@ section {
           attribute "scheduler_count" {
             type        = number
             description = <<-END
-              The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-2.*.*.
+              The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-2.*.*`.
             END
           }
         }
@@ -194,7 +196,7 @@ section {
           attribute "enable_private_endpoint" {
             type        = bool
             description = <<-END
-              If true, access to the public endpoint of the GKE cluster is denied. If this field is set to true, ip_allocation_policy.use_ip_aliases must be set to true for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              If true, access to the public endpoint of the GKE cluster is denied. If this field is set to true, ip_allocation_policy.use_ip_aliases must be set to true for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
@@ -216,14 +218,14 @@ section {
           attribute "web_server_ipv4_cidr_block" {
             type        = string
             description = <<-END
-              The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
           attribute "web_server_ipv4_cidr_block" {
             type        = string
             description = <<-END
-              The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
         }
@@ -253,7 +255,7 @@ section {
             type        = string
             required    = true
             description = <<-END
-              IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334. IP range prefixes should be properly truncated. For example, 1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
+              IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32` or `2001:0db8:0000:0042:0000:8a2e:0370:7334`. IP range prefixes should be properly truncated. For example, `1.2.3.4/24` should be truncated to `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` should be truncated to `2001:db8::/32`.
             END
           }
 
@@ -275,21 +277,21 @@ section {
           attribute "zone" {
             type        = string
             description = <<-END
-              The Compute Engine zone in which to deploy the VMs running the Apache Airflow software, specified as the zone name or relative resource name (e.g. "projects/{project}/zones/{zone}"). Must belong to the enclosing environment's project and region. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The Compute Engine zone in which to deploy the VMs running the Apache Airflow software, specified as the zone name or relative resource name (e.g. "`projects/{project}/zones/{zone}`"). Must belong to the enclosing environment's project and region. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
           attribute "machine_type" {
             type        = string
             description = <<-END
-              The Compute Engine machine type used for cluster instances, specified as a name or relative resource name. For example: "projects/{project}/zones/{zone}/machineTypes/{machineType}". Must belong to the enclosing environment's project and region/zone. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The Compute Engine machine type used for cluster instances, specified as a name or relative resource name. For example: "`projects/{project}/zones/{zone}/machineTypes/{machineType}`". Must belong to the enclosing environment's project and region/zone. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
           attribute "network" {
             type        = string
             description = <<-END
-              he Compute Engine network to be used for machine communications, specified as a self-link, relative resource name (for example "projects/{project}/global/networks/{network}"), by name.
+              he Compute Engine network to be used for machine communications, specified as a self-link, relative resource name (for example "`projects/{project}/global/networks/{network}`"), by name.
 
               The network must belong to the environment's project. If unspecified, the "default" network ID in the environment's project is used. If a Custom Subnet Network is provided, subnetwork must also be provided.
             END
@@ -298,21 +300,21 @@ section {
           attribute "subnetwork" {
             type        = string
             description = <<-END
-              The Compute Engine subnetwork to be used for machine communications, specified as a self-link, relative resource name (for example, "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided, network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
+              The Compute Engine subnetwork to be used for machine communications, specified as a self-link, relative resource name (for example, "`projects/{project}/regions/{region}/subnetworks/{subnetwork}`"), or by name. If subnetwork is provided, network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
             END
           }
 
           attribute "disk_size_gb" {
             type        = number
             description = <<-END
-              The disk size in GB used for node VMs. Minimum size is 20GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The disk size in GB used for node VMs. Minimum size is 20GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
           attribute "oauth_scopes" {
             type        = set(string)
             description = <<-END
-              The set of Google API scopes to be made available on all node VMs. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The set of Google API scopes to be made available on all node VMs. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
             default     = ["https://www.googleapis.com/auth/cloud-platform"]
           }
@@ -327,7 +329,7 @@ section {
           attribute "tags" {
             type        = set(string)
             description = <<-END
-              The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
@@ -362,14 +364,14 @@ section {
             attribute "cluster_ipv4_cidr_block" {
               type        = string
               description = <<-END
-                The IP address range used to allocate IP addresses to pods in the cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use. Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
+                The IP address range used to allocate IP addresses to pods in the cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
               END
             }
 
             attribute "cluster_ipv4_cidr_block" {
               type        = string
               description = <<-END
-                The IP address range used to allocate IP addresses in this cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use. Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
+                The IP address range used to allocate IP addresses in this cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
               END
             }
           }
@@ -377,7 +379,7 @@ section {
           attribute "max_pods_per_node" {
             type        = number
             description = <<-END
-              The maximum pods per node in the GKE cluster allocated during environment creation. Lowering this value reduces IP address consumption by the Cloud Composer Kubernetes cluster. This value can only be set during environment creation, and only if the environment is VPC-Native. The range of possible values is 8-110, and the default is 32. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+              The maximum pods per node in the GKE cluster allocated during environment creation. Lowering this value reduces IP address consumption by the Cloud Composer Kubernetes cluster. This value can only be set during environment creation, and only if the environment is VPC-Native. The range of possible values is 8-110, and the default is 32. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
             END
           }
 
@@ -393,7 +395,7 @@ section {
           type        = string
           required    = true
           description = <<-END
-            Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
+            Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. `projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key`. Cannot be updated.
           END
         }
       }

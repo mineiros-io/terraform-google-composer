@@ -231,7 +231,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     - [**`cluster_secondary_range_name`**](#attr-cluster_secondary_range_name-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-cluster_secondary_range_name-ip_allocation_policy-node_config"></a>
 
-      The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+      The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. For Cloud Composer 1 environments, this field is applicable only when `use_ip_aliases` is `true`.
 
     - [**`services_secondary_range_name`**](#attr-services_secondary_range_name-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-services_secondary_range_name-ip_allocation_policy-node_config"></a>
 

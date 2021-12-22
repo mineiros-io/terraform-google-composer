@@ -5,12 +5,12 @@ variable "name" {
 
 variable "project" {
   type        = string
-  description = "(Optional) The ID of the project in which the resource belongs. If it is not provided, the provider project is used."
+  description = "(Required) The ID of the project in which the resource belongs. If it is not provided, the provider project is used."
 }
 
 variable "region" {
   type        = string
-  description = "(Optional) The location or Compute Engine region for the environment."
+  description = "(Required) The location or Compute Engine region for the environment."
 }
 
 variable "labels" {

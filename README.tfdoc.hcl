@@ -350,7 +350,7 @@ section {
             attribute "cluster_secondary_range_name" {
               type        = string
               description = <<-END
-                The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. For Cloud Composer 1 environments, this field is applicable only when `use_ip_aliases` is `true`.
               END
             }
 

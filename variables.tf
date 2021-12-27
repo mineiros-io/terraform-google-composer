@@ -1,16 +1,16 @@
+variable "name" {
+  type        = string
+  description = "(Required) Name of the composer environment"
+}
+
 variable "project" {
-  type        = any
-  description = "(Required) The GCP project to deploy resources to"
+  type        = string
+  description = "(Required) The ID of the project in which the resource belongs. If it is not provided, the provider project is used."
 }
 
 variable "region" {
-  type        = any
-  description = "(Required) The region to deploy resources to"
-}
-
-variable "name" {
-  type        = any
-  description = "(Required) Name of the composer environemnt"
+  type        = string
+  description = "(Required) The location or Compute Engine region for the environment."
 }
 
 variable "labels" {
@@ -38,13 +38,13 @@ variable "private_environment_config" {
 }
 
 variable "database_machine_type" {
-  type        = any
+  type        = string
   description = "(Optional) Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2, db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16."
   default     = null
 }
 
 variable "webserver_machine_type" {
-  type        = any
+  type        = string
   description = "(Optional) Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8."
   default     = null
 }
@@ -62,7 +62,7 @@ variable "node_config" {
 }
 
 variable "kms_key_name" {
-  type        = any
+  type        = string
   description = "(Optional) Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated."
   default     = null
 }
@@ -71,4 +71,10 @@ variable "module_enabled" {
   type        = bool
   description = "(Optional) Whether resources in thismodule should be created."
   default     = true
+}
+
+variable "module_depends_on" {
+  type        = any
+  description = "(Optional) A list of external resources the module depends_on. Default is '[]'."
+  default     = []
 }

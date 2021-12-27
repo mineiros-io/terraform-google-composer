@@ -82,6 +82,12 @@ test/pre-commit: DOCKER_FLAGS += ${DOCKER_SSH_FLAGS}
 test/pre-commit:
 	$(call docker-run,pre-commit run -a)
 
+## Generate README.md with Terradoc
+.PHONY: terradoc
+terradoc:
+	$(call quiet-command,terradoc -o README.md README.tfdoc.hcl)
+
+
 ## Clean up cache and temporary files
 .PHONY: clean
 clean:
@@ -104,6 +110,8 @@ help:
 			} \
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
+
+
 
 # Define helper functions
 DOCKER_FLAGS   += ${DOCKER_RUN_FLAGS}

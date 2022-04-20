@@ -55,6 +55,15 @@ section {
   }
 
   section {
+    title   = "About Composer Versions"
+    content = <<-END
+      Google Cloud Composer has two [major versions](https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview):
+      Cloud Composer 1 and Cloud Composer 2. Some new Cloud Composer features might be supported only in Cloud Composer 2.
+      For details please see: https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview
+    END
+  }
+
+  section {
     title   = "Getting Started"
     content = <<-END
       Most common usage of the module just setting required arguments:

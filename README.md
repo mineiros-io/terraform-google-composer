@@ -19,7 +19,7 @@ secure, and production-grade cloud infrastructure.
 
 
 - [Module Features](#module-features)
-- [About Composer Versions](#about-composer-versions)
+- [Composer Versions](#composer-versions)
 - [Getting Started](#getting-started)
 - [Module Argument Reference](#module-argument-reference)
   - [Top-level Arguments](#top-level-arguments)
@@ -40,7 +40,7 @@ secure, and production-grade cloud infrastructure.
 
 A [Terraform] base module for creating a `terraform-google-composer`. Composer is a managed Apache Airflow
 
-## About Composer Versions
+## Composer Versions
 
 Google Cloud Composer has two [major versions](https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview):
 Cloud Composer 1 and Cloud Composer 2. Some new Cloud Composer features might be supported only in Cloud Composer 2.

@@ -55,7 +55,7 @@ section {
   }
 
   section {
-    title   = "About Composer Versions"
+    title   = "Composer Versions"
     content = <<-END
       Google Cloud Composer has two [major versions](https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview):
       Cloud Composer 1 and Cloud Composer 2. Some new Cloud Composer features might be supported only in Cloud Composer 2.

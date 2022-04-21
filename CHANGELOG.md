@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for provider `v4.x`
+- Add docs about the different composer versions
 
 ## [0.0.1]
 

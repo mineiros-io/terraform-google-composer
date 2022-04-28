@@ -19,6 +19,7 @@ secure, and production-grade cloud infrastructure.
 
 
 - [Module Features](#module-features)
+- [Composer Versions](#composer-versions)
 - [Getting Started](#getting-started)
 - [Module Argument Reference](#module-argument-reference)
   - [Top-level Arguments](#top-level-arguments)
@@ -38,6 +39,12 @@ secure, and production-grade cloud infrastructure.
 ## Module Features
 
 A [Terraform] base module for creating a `terraform-google-composer`. Composer is a managed Apache Airflow
+
+## Composer Versions
+
+Google Cloud Composer has two [major versions](https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview):
+Cloud Composer 1 and Cloud Composer 2. Some new Cloud Composer features might be supported only in Cloud Composer 2.
+For details please see: https://cloud.google.com/composer/docs/composer-2/composer-versioning-overview
 
 ## Getting Started
 
@@ -79,26 +86,26 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-- [**`software_config`**](#var-software_config): *(Optional `object(software_config)`)*<a name="var-software_config"></a>
+- [**`software_config`**](#var-software_config): *(Optional `object`)*<a name="var-software_config"></a>
 
   The configuration settings for software inside the environment.
 
   The object accepts the following attributes:
 
-  - [**`airflow_config_overrides`**](#attr-airflow_config_overrides-software_config): *(Optional `map(string)`)*<a name="attr-airflow_config_overrides-software_config"></a>
+  - [**`airflow_config_overrides`**](#attr-software_config-airflow_config_overrides): *(Optional `map(string)`)*<a name="attr-software_config-airflow_config_overrides"></a>
 
     Apache Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example "core-dags_are_paused_at_creation".
-    
+
     Section names must not contain hyphens ("`-`"), opening square brackets ("`[`"), or closing square brackets ("`]`"). The property name must not be empty and cannot contain "`=`" or "`;`". Section and property names cannot contain characters: "`.`" Apache Airflow configuration property names must be written in snake_case. Property values can contain any character, and can be written in any lower/upper case format. Certain Apache Airflow configuration property values are blacklisted, and cannot be overridden.
 
-  - [**`pypi_packages`**](#attr-pypi_packages-software_config): *(Optional `map(string)`)*<a name="attr-pypi_packages-software_config"></a>
+  - [**`pypi_packages`**](#attr-software_config-pypi_packages): *(Optional `map(string)`)*<a name="attr-software_config-pypi_packages"></a>
 
     Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and version specifier (e.g. "`==1.12.0`", "`[devel,gcp_api]`", "`[devel]>=1.8.2, <1.9.2`"). To specify a package without pinning it to a version specifier, use the empty string as the value.
 
-  - [**`env_variables`**](#attr-env_variables-software_config): *(Optional `map(string)`)*<a name="attr-env_variables-software_config"></a>
+  - [**`env_variables`**](#attr-software_config-env_variables): *(Optional `map(string)`)*<a name="attr-software_config-env_variables"></a>
 
     Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes. Environment variable names must match the regular expression `[a-zA-Z_][a-zA-Z0-9_]*`. They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression `AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+)`, and they cannot match any of the following reserved names:
-    
+
     ```
     AIRFLOW_HOME,
     C_FORCE_ROOT,
@@ -115,43 +122,43 @@ See [variables.tf] and [examples/] for details and use-cases.
     SQL_USER
     ```
 
-  - [**`image_version`**](#attr-image_version-software_config): *(Optional `string`)*<a name="attr-image_version-software_config"></a>
+  - [**`image_version`**](#attr-software_config-image_version): *(Optional `string`)*<a name="attr-software_config-image_version"></a>
 
     The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-[0-9]+\.[0-9]+(\.[0-9]+)?-airflow-[0-9]+\.[0-9]+(\.[0-9]+.*)?`. The Cloud Composer portion of the version is a semantic version. The portion of the image version following '`airflow-`' is an official Apache Airflow repository release name.
 
-  - [**`python_version`**](#attr-python_version-software_config): *(Optional `string`)*<a name="attr-python_version-software_config"></a>
+  - [**`python_version`**](#attr-software_config-python_version): *(Optional `string`)*<a name="attr-software_config-python_version"></a>
 
     The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes. Can be set to '2' or '3'. If not specified, the default is '3'.
 
-  - [**`scheduler_count`**](#attr-scheduler_count-software_config): *(Optional `number`)*<a name="attr-scheduler_count-software_config"></a>
+  - [**`scheduler_count`**](#attr-software_config-scheduler_count): *(Optional `number`)*<a name="attr-software_config-scheduler_count"></a>
 
     The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-2.*.*`.
 
-- [**`private_environment_config`**](#var-private_environment_config): *(Optional `object(private_environment_config)`)*<a name="var-private_environment_config"></a>
+- [**`private_environment_config`**](#var-private_environment_config): *(Optional `object`)*<a name="var-private_environment_config"></a>
 
   The configuration used for the Private IP Cloud Composer environment.
 
   The object accepts the following attributes:
 
-  - [**`enable_private_endpoint`**](#attr-enable_private_endpoint-private_environment_config): *(Optional `bool`)*<a name="attr-enable_private_endpoint-private_environment_config"></a>
+  - [**`enable_private_endpoint`**](#attr-private_environment_config-enable_private_endpoint): *(Optional `bool`)*<a name="attr-private_environment_config-enable_private_endpoint"></a>
 
     If true, access to the public endpoint of the GKE cluster is denied. If this field is set to true, ip_allocation_policy.use_ip_aliases must be set to true for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`master_ipv4_cidr_block`**](#attr-master_ipv4_cidr_block-private_environment_config): *(Optional `string`)*<a name="attr-master_ipv4_cidr_block-private_environment_config"></a>
+  - [**`master_ipv4_cidr_block`**](#attr-private_environment_config-master_ipv4_cidr_block): *(Optional `string`)*<a name="attr-private_environment_config-master_ipv4_cidr_block"></a>
 
     The IP range in CIDR notation to use for the hosted master network. This range is used for assigning internal IP addresses to the cluster master or set of masters and to the internal load balancer virtual IP. This range must not overlap with any other ranges in use within the cluster's network.
 
     Default is `"172.16.0.0/28"`.
 
-  - [**`cloud_sql_ipv4_cidr_block`**](#attr-cloud_sql_ipv4_cidr_block-private_environment_config): *(Optional `string`)*<a name="attr-cloud_sql_ipv4_cidr_block-private_environment_config"></a>
+  - [**`cloud_sql_ipv4_cidr_block`**](#attr-private_environment_config-cloud_sql_ipv4_cidr_block): *(Optional `string`)*<a name="attr-private_environment_config-cloud_sql_ipv4_cidr_block"></a>
 
     The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 
-  - [**`web_server_ipv4_cidr_block`**](#attr-web_server_ipv4_cidr_block-private_environment_config): *(Optional `string`)*<a name="attr-web_server_ipv4_cidr_block-private_environment_config"></a>
+  - [**`web_server_ipv4_cidr_block`**](#attr-private_environment_config-web_server_ipv4_cidr_block): *(Optional `string`)*<a name="attr-private_environment_config-web_server_ipv4_cidr_block"></a>
 
     The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`web_server_ipv4_cidr_block`**](#attr-web_server_ipv4_cidr_block-private_environment_config): *(Optional `string`)*<a name="attr-web_server_ipv4_cidr_block-private_environment_config"></a>
+  - [**`web_server_ipv4_cidr_block`**](#attr-private_environment_config-web_server_ipv4_cidr_block): *(Optional `string`)*<a name="attr-private_environment_config-web_server_ipv4_cidr_block"></a>
 
     The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
@@ -163,93 +170,93 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. Value custom is returned only in response, if Airflow web server parameters were manually changed to a non-standard values.
 
-- [**`web_server_allowed_ip_ranges`**](#var-web_server_allowed_ip_ranges): *(Optional `list(web_server_allowed_ip_ranges)`)*<a name="var-web_server_allowed_ip_ranges"></a>
+- [**`web_server_allowed_ip_ranges`**](#var-web_server_allowed_ip_ranges): *(Optional `object`)*<a name="var-web_server_allowed_ip_ranges"></a>
 
   A collection of allowed IP ranges with descriptions.
 
   The object accepts the following attributes:
 
-  - [**`value`**](#attr-value-web_server_allowed_ip_ranges): *(**Required** `string`)*<a name="attr-value-web_server_allowed_ip_ranges"></a>
+  - [**`value`**](#attr-web_server_allowed_ip_ranges-value): *(**Required** `string`)*<a name="attr-web_server_allowed_ip_ranges-value"></a>
 
     IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32` or `2001:0db8:0000:0042:0000:8a2e:0370:7334`. IP range prefixes should be properly truncated. For example, `1.2.3.4/24` should be truncated to `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` should be truncated to `2001:db8::/32`.
 
-  - [**`description`**](#attr-description-web_server_allowed_ip_ranges): *(Optional `string`)*<a name="attr-description-web_server_allowed_ip_ranges"></a>
+  - [**`description`**](#attr-web_server_allowed_ip_ranges-description): *(Optional `string`)*<a name="attr-web_server_allowed_ip_ranges-description"></a>
 
     A description of this ip range.
 
-- [**`node_config`**](#var-node_config): *(Optional `object(node_config)`)*<a name="var-node_config"></a>
+- [**`node_config`**](#var-node_config): *(Optional `object`)*<a name="var-node_config"></a>
 
   The configuration used for the Kubernetes Engine cluster.
 
   The object accepts the following attributes:
 
-  - [**`zone`**](#attr-zone-node_config): *(Optional `string`)*<a name="attr-zone-node_config"></a>
+  - [**`zone`**](#attr-node_config-zone): *(Optional `string`)*<a name="attr-node_config-zone"></a>
 
     The Compute Engine zone in which to deploy the VMs running the Apache Airflow software, specified as the zone name or relative resource name (e.g. "`projects/{project}/zones/{zone}`"). Must belong to the enclosing environment's project and region. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`machine_type`**](#attr-machine_type-node_config): *(Optional `string`)*<a name="attr-machine_type-node_config"></a>
+  - [**`machine_type`**](#attr-node_config-machine_type): *(Optional `string`)*<a name="attr-node_config-machine_type"></a>
 
     The Compute Engine machine type used for cluster instances, specified as a name or relative resource name. For example: "`projects/{project}/zones/{zone}/machineTypes/{machineType}`". Must belong to the enclosing environment's project and region/zone. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`network`**](#attr-network-node_config): *(Optional `string`)*<a name="attr-network-node_config"></a>
+  - [**`network`**](#attr-node_config-network): *(Optional `string`)*<a name="attr-node_config-network"></a>
 
     he Compute Engine network to be used for machine communications, specified as a self-link, relative resource name (for example "`projects/{project}/global/networks/{network}`"), by name.
-    
+
     The network must belong to the environment's project. If unspecified, the "default" network ID in the environment's project is used. If a Custom Subnet Network is provided, subnetwork must also be provided.
 
-  - [**`subnetwork`**](#attr-subnetwork-node_config): *(Optional `string`)*<a name="attr-subnetwork-node_config"></a>
+  - [**`subnetwork`**](#attr-node_config-subnetwork): *(Optional `string`)*<a name="attr-node_config-subnetwork"></a>
 
     The Compute Engine subnetwork to be used for machine communications, specified as a self-link, relative resource name (for example, "`projects/{project}/regions/{region}/subnetworks/{subnetwork}`"), or by name. If subnetwork is provided, network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
 
-  - [**`disk_size_gb`**](#attr-disk_size_gb-node_config): *(Optional `number`)*<a name="attr-disk_size_gb-node_config"></a>
+  - [**`disk_size_gb`**](#attr-node_config-disk_size_gb): *(Optional `number`)*<a name="attr-node_config-disk_size_gb"></a>
 
     The disk size in GB used for node VMs. Minimum size is 20GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`oauth_scopes`**](#attr-oauth_scopes-node_config): *(Optional `set(string)`)*<a name="attr-oauth_scopes-node_config"></a>
+  - [**`oauth_scopes`**](#attr-node_config-oauth_scopes): *(Optional `set(string)`)*<a name="attr-node_config-oauth_scopes"></a>
 
     The set of Google API scopes to be made available on all node VMs. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
     Default is `["https://www.googleapis.com/auth/cloud-platform"]`.
 
-  - [**`service_account`**](#attr-service_account-node_config): *(Optional `string`)*<a name="attr-service_account-node_config"></a>
+  - [**`service_account`**](#attr-node_config-service_account): *(Optional `string`)*<a name="attr-node_config-service_account"></a>
 
     The Google Cloud Platform Service Account to be used by the node VMs. If a service account is not specified, the "default" Compute Engine service account is used. Cannot be updated. If given, note that the service account must have roles/composer.worker for any GCP resources created under the Cloud Composer Environment.
 
-  - [**`tags`**](#attr-tags-node_config): *(Optional `set(string)`)*<a name="attr-tags-node_config"></a>
+  - [**`tags`**](#attr-node_config-tags): *(Optional `set(string)`)*<a name="attr-node_config-tags"></a>
 
     The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`ip_allocation_policy`**](#attr-ip_allocation_policy-node_config): *(Optional `object(ip_allocation_policy)`)*<a name="attr-ip_allocation_policy-node_config"></a>
+  - [**`ip_allocation_policy`**](#attr-node_config-ip_allocation_policy): *(Optional `object`)*<a name="attr-node_config-ip_allocation_policy"></a>
 
     Configuration for controlling how IPs are allocated in the GKE cluster.
 
     The object accepts the following attributes:
 
-    - [**`use_ip_aliases`**](#attr-use_ip_aliases-ip_allocation_policy-node_config): *(Optional `bool`)*<a name="attr-use_ip_aliases-ip_allocation_policy-node_config"></a>
+    - [**`use_ip_aliases`**](#attr-node_config-ip_allocation_policy-use_ip_aliases): *(Optional `bool`)*<a name="attr-node_config-ip_allocation_policy-use_ip_aliases"></a>
 
       Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created. Defaults to true if the ip_allocation_policy block is present in config.
 
-    - [**`cluster_secondary_range_name`**](#attr-cluster_secondary_range_name-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-cluster_secondary_range_name-ip_allocation_policy-node_config"></a>
+    - [**`cluster_secondary_range_name`**](#attr-node_config-ip_allocation_policy-cluster_secondary_range_name): *(Optional `string`)*<a name="attr-node_config-ip_allocation_policy-cluster_secondary_range_name"></a>
 
       The name of the cluster's secondary range used to allocate IP addresses to pods. Specify either `cluster_secondary_range_name` or `cluster_ipv4_cidr_block` but not both. For Cloud Composer 1 environments, this field is applicable only when `use_ip_aliases` is `true`.
 
-    - [**`services_secondary_range_name`**](#attr-services_secondary_range_name-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-services_secondary_range_name-ip_allocation_policy-node_config"></a>
+    - [**`services_secondary_range_name`**](#attr-node_config-ip_allocation_policy-services_secondary_range_name): *(Optional `string`)*<a name="attr-node_config-ip_allocation_policy-services_secondary_range_name"></a>
 
       The name of the services' secondary range used to allocate IP addresses to the cluster. Specify either services_secondary_range_name or services_ipv4_cidr_block but not both. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
 
-    - [**`cluster_ipv4_cidr_block`**](#attr-cluster_ipv4_cidr_block-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-cluster_ipv4_cidr_block-ip_allocation_policy-node_config"></a>
+    - [**`cluster_ipv4_cidr_block`**](#attr-node_config-ip_allocation_policy-cluster_ipv4_cidr_block): *(Optional `string`)*<a name="attr-node_config-ip_allocation_policy-cluster_ipv4_cidr_block"></a>
 
       The IP address range used to allocate IP addresses to pods in the cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
 
-    - [**`cluster_ipv4_cidr_block`**](#attr-cluster_ipv4_cidr_block-ip_allocation_policy-node_config): *(Optional `string`)*<a name="attr-cluster_ipv4_cidr_block-ip_allocation_policy-node_config"></a>
+    - [**`cluster_ipv4_cidr_block`**](#attr-node_config-ip_allocation_policy-cluster_ipv4_cidr_block): *(Optional `string`)*<a name="attr-node_config-ip_allocation_policy-cluster_ipv4_cidr_block"></a>
 
       The IP address range used to allocate IP addresses in this cluster. For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true. Set to blank to have GKE choose a range with the default size. Set to /netmask (e.g. `/14`) to have GKE choose a range with a specific netmask. Set to a CIDR notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
 
-  - [**`max_pods_per_node`**](#attr-max_pods_per_node-node_config): *(Optional `number`)*<a name="attr-max_pods_per_node-node_config"></a>
+  - [**`max_pods_per_node`**](#attr-node_config-max_pods_per_node): *(Optional `number`)*<a name="attr-node_config-max_pods_per_node"></a>
 
     The maximum pods per node in the GKE cluster allocated during environment creation. Lowering this value reduces IP address consumption by the Cloud Composer Kubernetes cluster. This value can only be set during environment creation, and only if the environment is VPC-Native. The range of possible values is 8-110, and the default is 32. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`enable_ip_masq_agent`**](#attr-enable_ip_masq_agent-node_config): *(Optional `bool`)*<a name="attr-enable_ip_masq_agent-node_config"></a>
+  - [**`enable_ip_masq_agent`**](#attr-node_config-enable_ip_masq_agent): *(Optional `bool`)*<a name="attr-node_config-enable_ip_masq_agent"></a>
 
     Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for all destination addresses, except between pods traffic. See: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-masquerade-agent
 
@@ -265,7 +272,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `true`.
 
-- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependencies)`)*<a name="var-module_depends_on"></a>
+- [**`module_depends_on`**](#var-module_depends_on): *(Optional `object`)*<a name="var-module_depends_on"></a>
 
   A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
 

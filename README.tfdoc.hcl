@@ -50,7 +50,7 @@ section {
   section {
     title   = "Module Features"
     content = <<-END
-      A [Terraform] base module for creating a `terraform-google-composer`. Composer is a managed Apache Airflow.
+      A [Terraform] base module for creating a `terraform-google-composer`. Google Cloud Composer is a fully managed workflow orchestration service built on Apache Airflow.
     END
   }
 

@@ -190,6 +190,7 @@ section {
           attribute "scheduler_count" {
             type        = number
             description = <<-END
+              Cloud Composer 1 with Airflow 2 only.
               The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-2.*.*`.
             END
           }

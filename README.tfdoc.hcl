@@ -70,9 +70,13 @@ section {
 
       ```hcl
       module "terraform-google-composer" {
-        source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.0.1"
+        source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.1.0"
 
         name   = "example-name"
+
+        software_config = {
+          python_version = 3
+        }
       }
       ```
     END

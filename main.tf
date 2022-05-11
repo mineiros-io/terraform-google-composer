@@ -28,13 +28,13 @@ resource "google_composer_environment" "composer_environment" {
     }
 
     dynamic "private_environment_config" {
-      for_each = var.private_environment_config != null ? [1] : []
+      for_each = var.private_environment_config != null ? [var.private_environment_config] : []
 
       content {
-        enable_private_endpoint    = try(var.private_environment_config.enable_private_endpoint, null)    # - If true, access to the public endpoint of the GKE cluster is denied.
-        master_ipv4_cidr_block     = try(var.private_environment_config.master_ipv4_cidr_block, null)     # - (Optional) The IP range in CIDR notation to use for the hosted master network. This range is used for assigning internal IP addresses to the cluster master or set of masters and to the internal load balancer virtual IP. This range must not overlap with any other ranges in use within the cluster's network. If left blank, the default value of '172.16.0.0/28' is used.
-        cloud_sql_ipv4_cidr_block  = try(var.private_environment_config.cloud_sql_ipv4_cidr_block, null)  # - (Optional) The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
-        web_server_ipv4_cidr_block = try(var.private_environment_config.web_server_ipv4_cidr_block, null) # - (Optional) The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block.
+        enable_private_endpoint    = try(private_environment_config.value.enable_private_endpoint, null)
+        master_ipv4_cidr_block     = try(private_environment_config.value.master_ipv4_cidr_block, null)
+        cloud_sql_ipv4_cidr_block  = try(private_environment_config.value.cloud_sql_ipv4_cidr_block, null)
+        web_server_ipv4_cidr_block = try(private_environment_config.value.web_server_ipv4_cidr_block, null)
       }
     }
 
@@ -70,22 +70,22 @@ resource "google_composer_environment" "composer_environment" {
     }
 
     dynamic "node_config" {
-      for_each = var.node_config != null ? [1] : []
+      for_each = var.node_config != null ? [var.node_config] : []
 
       content {
-        zone = var.node_config.zone # - (Required) The Compute Engine zone in which to deploy the VMs running the Apache Airflow software, specified as the zone name or relative resource name (e.g. "projects/{project}/zones/{zone}"). Must belong to the enclosing environment's project and region.
+        zone = node_config.value.zone
 
-        machine_type    = try(var.node_config.machine_type, null)    # - (Optional) The Compute Engine machine type used for cluster instances, specified as a name or relative resource name. For example: "projects/{project}/zones/{zone}/machineTypes/{machineType}". Must belong to the enclosing environment's project and region/zone.
-        network         = try(var.node_config.network, null)         # - (Optional) The Compute Engine network to be used for machine communications, specified as a self-link, relative resource name (e.g. "projects/{project}/global/networks/{network}"), by name.      The network must belong to the environment's project. If unspecified, the "default" network ID in the environment's project is used. If a Custom Subnet Network is provided, subnetwork must also be provided.
-        subnetwork      = try(var.node_config.subnetwork, null)      # - (Optional) The Compute Engine subnetwork to be used for machine communications, , specified as a self-link, relative resource name (e.g. "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided, network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
-        disk_size_gb    = try(var.node_config.disk_size_gb, null)    # - (Optional) The disk size in GB used for node VMs. Minimum size is 20GB. If unspecified, defaults to 100GB. Cannot be updated.
-        oauth_scopes    = try(var.node_config.oauth_scopes, null)    # - (Optional) The set of Google API scopes to be made available on all node VMs. Cannot be updated. If empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"]
-        service_account = try(var.node_config.service_account, null) # - (Optional) The Google Cloud Platform Service Account to be used by the node VMs. If a service account is not specified, the "default" Compute Engine service account is used. Cannot be updated. If given, note that the service account must have roles/composer.worker for any GCP resources created under the Cloud Composer Environment.
-        tags            = try(var.node_config.tags, null)            # - (Optional) The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated.
+        machine_type    = try(node_config.value.machine_type, null)
+        network         = try(node_config.value.network, null)
+        subnetwork      = try(node_config.value.subnetwork, null)
+        disk_size_gb    = try(node_config.value.disk_size_gb, null)
+        oauth_scopes    = try(node_config.value.oauth_scopes, null)
+        service_account = try(node_config.value.service_account, null)
+        tags            = try(node_config.value.tags, null)
 
         dynamic "ip_allocation_policy" {
-          for_each = try(var.node_config.ip_allocation_policy.use_ip_aliases, null) == null ? [] : [
-            var.node_config.ip_allocation_policy
+          for_each = try(node_config.value.ip_allocation_policy.use_ip_aliases, null) == null ? [] : [
+            node_config.value.ip_allocation_policy
           ]
           iterator = iap
 

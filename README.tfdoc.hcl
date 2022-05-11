@@ -50,7 +50,7 @@ section {
   section {
     title   = "Module Features"
     content = <<-END
-      A [Terraform] base module for creating a `terraform-google-composer`. Composer is a managed Apache Airflow 
+      A [Terraform] base module for creating a `terraform-google-composer`. Google Cloud Composer is a fully managed workflow orchestration service built on Apache Airflow.
     END
   }
 
@@ -70,9 +70,13 @@ section {
 
       ```hcl
       module "terraform-google-composer" {
-        source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.0.1"
+        source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.1.0"
 
         name   = "example-name"
+
+        software_config = {
+          python_version = 3
+        }
       }
       ```
     END
@@ -128,8 +132,7 @@ section {
         }
 
         variable "software_config" {
-          type        = any
-          readme_type = "object(software_config)"
+          type        = object(software_config)
           description = <<-END
             The configuration settings for software inside the environment.
           END
@@ -190,14 +193,14 @@ section {
           attribute "scheduler_count" {
             type        = number
             description = <<-END
+              Cloud Composer 1 with Airflow 2 only.
               The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-2.*.*`.
             END
           }
         }
 
         variable "private_environment_config" {
-          type        = any
-          readme_type = "object(private_environment_config)"
+          type        = object(private_environment_config)
           description = <<-END
             The configuration used for the Private IP Cloud Composer environment.
           END
@@ -254,8 +257,7 @@ section {
         }
 
         variable "web_server_allowed_ip_ranges" {
-          type        = any
-          readme_type = "list(web_server_allowed_ip_ranges)"
+          type        = list(web_server_allowed_ip_range)
           description = <<-END
             A collection of allowed IP ranges with descriptions.
           END
@@ -277,10 +279,9 @@ section {
         }
 
         variable "node_config" {
-          type        = any
-          readme_type = "object(node_config)"
+          type        = object(node_config)
           description = <<-END
-            The configuration used for the Kubernetes Engine cluster. 
+            The configuration used for the Kubernetes Engine cluster.
           END
 
           attribute "zone" {
@@ -343,8 +344,7 @@ section {
           }
 
           attribute "ip_allocation_policy" {
-            type        = any
-            readme_type = "object(ip_allocation_policy)"
+            type        = object(ip_allocation_policy)
             description = <<-END
               Configuration for controlling how IPs are allocated in the GKE cluster.
             END
@@ -421,14 +421,15 @@ section {
         }
 
         variable "module_depends_on" {
-          type           = any
-          readme_type    = "list(dependencies)"
+          type           = list(dependency)
           description    = <<-END
-            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+            A list of dependencies.
+            Any object can be _assigned_ to this list to define a hidden external dependency.
           END
+          default        = []
           readme_example = <<-END
             module_depends_on = [
-              google_network.network
+              null_resource.name
             ]
           END
         }

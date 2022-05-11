@@ -38,7 +38,7 @@ secure, and production-grade cloud infrastructure.
 
 ## Module Features
 
-A [Terraform] base module for creating a `terraform-google-composer`. Composer is a managed Apache Airflow
+A [Terraform] base module for creating a `terraform-google-composer`. Google Cloud Composer is a fully managed workflow orchestration service built on Apache Airflow.
 
 ## Composer Versions
 
@@ -86,11 +86,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-- [**`software_config`**](#var-software_config): *(Optional `object`)*<a name="var-software_config"></a>
+- [**`software_config`**](#var-software_config): *(Optional `object(software_config)`)*<a name="var-software_config"></a>
 
   The configuration settings for software inside the environment.
 
-  The object accepts the following attributes:
+  The `software_config` object accepts the following attributes:
 
   - [**`airflow_config_overrides`**](#attr-software_config-airflow_config_overrides): *(Optional `map(string)`)*<a name="attr-software_config-airflow_config_overrides"></a>
 
@@ -132,13 +132,14 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   - [**`scheduler_count`**](#attr-software_config-scheduler_count): *(Optional `number`)*<a name="attr-software_config-scheduler_count"></a>
 
+    Cloud Composer 1 with Airflow 2 only.
     The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-2.*.*`.
 
-- [**`private_environment_config`**](#var-private_environment_config): *(Optional `object`)*<a name="var-private_environment_config"></a>
+- [**`private_environment_config`**](#var-private_environment_config): *(Optional `object(private_environment_config)`)*<a name="var-private_environment_config"></a>
 
   The configuration used for the Private IP Cloud Composer environment.
 
-  The object accepts the following attributes:
+  The `private_environment_config` object accepts the following attributes:
 
   - [**`enable_private_endpoint`**](#attr-private_environment_config-enable_private_endpoint): *(Optional `bool`)*<a name="attr-private_environment_config-enable_private_endpoint"></a>
 
@@ -170,11 +171,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. Value custom is returned only in response, if Airflow web server parameters were manually changed to a non-standard values.
 
-- [**`web_server_allowed_ip_ranges`**](#var-web_server_allowed_ip_ranges): *(Optional `object`)*<a name="var-web_server_allowed_ip_ranges"></a>
+- [**`web_server_allowed_ip_ranges`**](#var-web_server_allowed_ip_ranges): *(Optional `list(web_server_allowed_ip_range)`)*<a name="var-web_server_allowed_ip_ranges"></a>
 
   A collection of allowed IP ranges with descriptions.
 
-  The object accepts the following attributes:
+  Each `web_server_allowed_ip_range` object in the list accepts the following attributes:
 
   - [**`value`**](#attr-web_server_allowed_ip_ranges-value): *(**Required** `string`)*<a name="attr-web_server_allowed_ip_ranges-value"></a>
 
@@ -184,11 +185,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     A description of this ip range.
 
-- [**`node_config`**](#var-node_config): *(Optional `object`)*<a name="var-node_config"></a>
+- [**`node_config`**](#var-node_config): *(Optional `object(node_config)`)*<a name="var-node_config"></a>
 
   The configuration used for the Kubernetes Engine cluster.
 
-  The object accepts the following attributes:
+  The `node_config` object accepts the following attributes:
 
   - [**`zone`**](#attr-node_config-zone): *(Optional `string`)*<a name="attr-node_config-zone"></a>
 
@@ -226,11 +227,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated. This field is supported for Cloud Composer environments in versions `composer-1.*.*-airflow-*.*.*`.
 
-  - [**`ip_allocation_policy`**](#attr-node_config-ip_allocation_policy): *(Optional `object`)*<a name="attr-node_config-ip_allocation_policy"></a>
+  - [**`ip_allocation_policy`**](#attr-node_config-ip_allocation_policy): *(Optional `object(ip_allocation_policy)`)*<a name="attr-node_config-ip_allocation_policy"></a>
 
     Configuration for controlling how IPs are allocated in the GKE cluster.
 
-    The object accepts the following attributes:
+    The `ip_allocation_policy` object accepts the following attributes:
 
     - [**`use_ip_aliases`**](#attr-node_config-ip_allocation_policy-use_ip_aliases): *(Optional `bool`)*<a name="attr-node_config-ip_allocation_policy-use_ip_aliases"></a>
 
@@ -272,15 +273,18 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `true`.
 
-- [**`module_depends_on`**](#var-module_depends_on): *(Optional `object`)*<a name="var-module_depends_on"></a>
+- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependency)`)*<a name="var-module_depends_on"></a>
 
-  A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+  A list of dependencies.
+  Any object can be _assigned_ to this list to define a hidden external dependency.
+
+  Default is `[]`.
 
   Example:
 
   ```hcl
   module_depends_on = [
-    google_network.network
+    null_resource.name
   ]
   ```
 

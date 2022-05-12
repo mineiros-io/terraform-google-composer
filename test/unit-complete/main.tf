@@ -6,7 +6,8 @@ module "test" {
   name = "unit-complete-${local.random_suffix}"
 
   software_config = {
-    python_version = 3
+    python_version  = 3
+    scheduler_count = 1
   }
 
   # add all optional arguments that create additional/extended resources

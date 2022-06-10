@@ -110,5 +110,14 @@ resource "google_composer_environment" "composer_environment" {
         kms_key_name = var.kms_key_name # - (Required) Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
       }
     }
+
+    dynamic "maintenance_window" {
+      for_each = var.maintenance_window != null ? [1] : []
+      content {
+        start_time = try(var.maintenance_window.start_time, null)
+        end_time   = try(var.maintenance_window.end_time, null)
+        recurrence = try(var.maintenance_window.recurrence, null)
+      }
+    }
   }
 }

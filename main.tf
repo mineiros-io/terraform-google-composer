@@ -112,11 +112,11 @@ resource "google_composer_environment" "composer_environment" {
     }
 
     dynamic "maintenance_window" {
-      for_each = var.maintenance_window != null ? [1] : []
+      for_each = var.maintenance_window != null ? [var.maintenance_window] : []
       content {
-        start_time = try(var.maintenance_window.start_time, null)
-        end_time   = try(var.maintenance_window.end_time, null)
-        recurrence = try(var.maintenance_window.recurrence, null)
+        start_time = maintenance_window.value.start_time
+        end_time   = maintenance_window.value.end_time
+        recurrence = maintenance_window.value.recurrence
       }
     }
   }

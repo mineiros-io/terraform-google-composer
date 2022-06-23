@@ -410,26 +410,29 @@ section {
 
         variable "maintenance_window" {
           type        = object(maintenance_window)
-          description = "(Optional) The configuration settings for Cloud Composer maintenance windows."
+          description = "The configuration settings for Cloud Composer maintenance windows."
 
           attribute "start_time" {
             type        = string
+            required    = true
             description = <<-END
-              (Required) Start time of the first recurrence of the maintenance window
+              Start time of the first recurrence of the maintenance window
             END
           }
 
           attribute "end_time" {
             type        = string
+            required    = true
             description = <<-END
-              (Required) Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end-time must be in the future, relative to 'start_time'.
+              Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end-time must be in the future, relative to 'start_time'.
             END
           }
 
           attribute "recurrence" {
             type        = string
+            required    = true
             description = <<-END
-              (Required) Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'. The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=…'. Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
+              Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'. The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=…'. Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
             END
           }
         }

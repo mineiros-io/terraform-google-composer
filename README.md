@@ -52,7 +52,7 @@ Most common usage of the module just setting required arguments:
 
 ```hcl
 module "terraform-google-composer" {
-  source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.1.0"
+  source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.2.0"
 
   name   = "example-name"
 

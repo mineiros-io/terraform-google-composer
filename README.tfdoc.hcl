@@ -407,6 +407,32 @@ section {
             Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. `projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key`. Cannot be updated.
           END
         }
+
+        variable "maintenance_window" {
+          type        = object(maintenance_window)
+          description = "(Optional) The configuration settings for Cloud Composer maintenance windows."
+
+          attribute "start_time" {
+            type        = string
+            description = <<-END
+              (Required) Start time of the first recurrence of the maintenance window
+            END
+          }
+
+          attribute "end_time" {
+            type        = string
+            description = <<-END
+              (Required) Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end-time must be in the future, relative to 'start_time'.
+            END
+          }
+
+          attribute "recurrence" {
+            type        = string
+            description = <<-END
+              (Required) Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'. The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=…'. Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
+            END
+          }
+        }
       }
 
       section {

@@ -71,7 +71,7 @@ variable "kms_key_name" {
 
 variable "maintenance_window" {
   type        = any
-  description = "(Optional, Cloud Composer 1 only) The encryption options for the Cloud Composer environment and its dependencies."
+  description = "(Optional) The configuration settings for Cloud Composer maintenance windows."
   default     = null
 }
 

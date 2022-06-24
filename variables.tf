@@ -69,6 +69,12 @@ variable "kms_key_name" {
   default     = null
 }
 
+variable "maintenance_window" {
+  type        = any
+  description = "(Optional) The configuration settings for Cloud Composer maintenance windows."
+  default     = null
+}
+
 variable "module_enabled" {
   type        = bool
   description = "(Optional) Whether resources in thismodule should be created."

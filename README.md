@@ -52,7 +52,7 @@ Most common usage of the module just setting required arguments:
 
 ```hcl
 module "terraform-google-composer" {
-  source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.1.0"
+  source = "git@github.com:mineiros-io/terraform-google-composer.git?ref=v0.2.0"
 
   name   = "example-name"
 
@@ -268,6 +268,24 @@ See [variables.tf] and [examples/] for details and use-cases.
 - [**`kms_key_name`**](#var-kms_key_name): *(**Required** `string`)*<a name="var-kms_key_name"></a>
 
   Customer-managed Encryption Key available through Google's Key Management Service. It must be the fully qualified resource name, i.e. `projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key`. Cannot be updated.
+
+- [**`maintenance_window`**](#var-maintenance_window): *(Optional `object(maintenance_window)`)*<a name="var-maintenance_window"></a>
+
+  The configuration settings for Cloud Composer maintenance windows.
+
+  The `maintenance_window` object accepts the following attributes:
+
+  - [**`start_time`**](#attr-maintenance_window-start_time): *(**Required** `string`)*<a name="attr-maintenance_window-start_time"></a>
+
+    Start time of the first recurrence of the maintenance window
+
+  - [**`end_time`**](#attr-maintenance_window-end_time): *(**Required** `string`)*<a name="attr-maintenance_window-end_time"></a>
+
+    Maintenance window end time. It is used only to calculate the duration of the maintenance window. The value for end-time must be in the future, relative to 'start_time'.
+
+  - [**`recurrence`**](#attr-maintenance_window-recurrence): *(**Required** `string`)*<a name="attr-maintenance_window-recurrence"></a>
+
+    Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'. The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=…'. Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
 
 #### Module Configuration
 
